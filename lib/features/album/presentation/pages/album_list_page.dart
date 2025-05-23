@@ -1,8 +1,8 @@
-
 import 'package:albums/features/album/data/datasources/album_remote_data_source.dart';
 import 'package:albums/features/album/data/repo/album_repository_impl.dart';
 import 'package:albums/features/album/domain/entities/album.dart';
 import 'package:albums/features/album/domain/usecases/get_albums.dart';
+import 'package:albums/features/album/presentation/pages/album_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -44,7 +44,16 @@ class _AlbumListPageState extends State<AlbumListPage> {
                 title: Text(album.title),
                 subtitle: Text('Album ID: ${album.id}'),
                 onTap: () {
-                  // We'll handle navigation in the next step
+                  // Integrate to details page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:(context) => AlbumDetailPage(
+                        albumId: album.id,
+                        albumTitle: album.title,
+                      ),
+                  ),
+                  );
                 },
               );
             },

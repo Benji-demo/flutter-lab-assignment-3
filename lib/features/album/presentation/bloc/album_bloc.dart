@@ -6,7 +6,7 @@ import 'album_state.dart';
 class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
   final GetAlbums getAlbums;
 
-  AlbumBloc(this.getAlbums) : super(AlbumInitial()) {
+  AlbumBloc(this.getAlbums) : super(AlbumLoading()) {
     on<FetchAlbums>((event, emit) async {
       emit(AlbumLoading());
       try {

@@ -5,6 +5,8 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:albums/features/album/data/repo/album_repository_impl.dart';
+import 'package:albums/features/album/domain/usecases/get_albums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -13,7 +15,12 @@ import 'package:albums/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    // ignore: prefer_typing_uninitialized_variables
+    var albumRemote;
+    final albumRepo = AlbumRepositoryImpl(remoteDataSource: albumRemote);
+    final getAlbums = GetAlbums(repository: albumRepo);
+  
+    await tester.pumpWidget(MyApp(getAlbums: getAlbums,));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

@@ -29,6 +29,12 @@ class MyApp extends StatelessWidget {
         title: 'Albums',
         debugShowCheckedModeBanner: false,
         routerConfig: router,
+        theme: ThemeData(
+          colorScheme: ColorScheme.light(
+            primary: const Color(0xFF4B5A78), // Main color
+            // secondary: Colors.amber,
+            )
+            ),
       ),
     );
   }

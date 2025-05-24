@@ -31,7 +31,13 @@ class _AlbumDetailPageState extends State<AlbumDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.albumTitle)),
+      appBar: AppBar(title: Text("Photos",
+      style: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        color: Colors.white)),
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      iconTheme: IconThemeData(color: Colors.white),),
       body: FutureBuilder<List<Photo>>(
         future: _photos,
         builder: (context, snapshot) {
@@ -39,15 +45,66 @@ class _AlbumDetailPageState extends State<AlbumDetailPage> {
           if (snapshot.hasError) return Center(child: Text('Error: ${snapshot.error}'));
 
           final photos = snapshot.data!;
-          return ListView.builder(
-            itemCount: photos.length,
-            itemBuilder: (context, index) {
-              final photo = photos[index];
-              return ListTile(
-                leading: Image.network(photo.thumbnailUrl),
-                title: Text(photo.title),
-              );
-            },
+          return Padding(
+            padding: const EdgeInsets.all(12),
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // columns
+                crossAxisSpacing:6,
+                mainAxisSpacing: 2,
+                childAspectRatio: 0.8,
+              ),
+              itemCount: photos.length,
+              itemBuilder: (context, index) {
+                final photo = photos[index];
+                return Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Image.network(photo.url,
+                          fit: BoxFit.cover,
+                        ),
+
+                        // Gradient 
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                // ignore: deprecated_member_use
+                                Colors.black.withOpacity(0.5),
+                                Colors.transparent,
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        // Photo title at bottom
+                        Positioned(left: 12, right: 12, bottom: 12,
+                          child: Text(
+                            photo.title,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
           );
         },
       ),

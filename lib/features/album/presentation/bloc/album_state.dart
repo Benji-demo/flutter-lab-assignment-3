@@ -1,8 +1,8 @@
 import 'package:albums/features/album/domain/entities/album.dart';
 
 abstract class AlbumState {}
-
-class AlbumInitial extends AlbumState {}
+// Problably not needed but ...
+// class AlbumInitial extends AlbumState {}
 
 class AlbumLoading extends AlbumState {}
 
